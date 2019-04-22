@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import './Game.css';
+import Modal from './../Modal/Modal';
 import Board from './../Board/Board';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 
 function calculateWinner(squares)
 {
@@ -78,31 +83,54 @@ class Game extends Component
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
-        const appStatus = (winner) ? "The winner is: " + winner : "Next player: " + (this.state.xIsNext ? "X" : "O");
+        const appStatus = (winner) ? "El ganador es: " + winner : "Turno actual: " + (this.state.xIsNext ? "X" : "O");
 
         const moves = history.map((step, move) => 
         {
-            const desc = move ? "Go to move " + move : "Go to game start";
+            const desc = move ? "Movimiento " + move : "Inicio del juego";
+            const setBtn = <li key={ move }>
+                               <Button variant="outline-dark" onClick={ () => this.jumpTo(move) }>
+                                   { desc }
+                               </Button>
+                           </li>;
+            const win = <Modal msg={ appStatus }/>;
+            const noWin = <Modal msg={ "Ya no quedan movimientos posibles." }/>;
+            
+            if (winner && move === this.state.stepNumber)
+                return ([setBtn, win]);
 
-            return (
-                <li key={ move }>
-                    <button onClick={ () => this.jumpTo(move) }>
-                        { desc }
-                    </button>
-                </li>
-            );
+            else if (move === 9)
+                return ([setBtn, noWin]);
+
+            else
+                return (setBtn);
         });
 
         return (
-            <div className="game">
-                <div className="game-board">
-                    <Board squares={ current.squares } onClick={ (i) => this.handleClick(i) }/>
-                </div>
-                <div className="game-info">
-                    <div>{ appStatus }</div>
-                    <div>{ moves }</div>
-                </div>
-            </div>
+            <Container>
+                <Row>
+                    <Col md={ 6 }>
+                        <Container>
+                            <Row>
+                                <Col>
+                                    <Board squares={ current.squares } onClick={ (i) => this.handleClick(i) }/>
+                                    { appStatus }
+                                </Col>
+                            </Row>
+                        </Container>
+                    </Col>
+                    <Col md={ 6 }>
+                        <Container>
+                            <Row>
+                                <Col md={{ offset: 2 }}>
+                                    { moves }
+                                </Col>
+                                <Col md={ 2 }></Col>
+                            </Row>
+                        </Container>
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }

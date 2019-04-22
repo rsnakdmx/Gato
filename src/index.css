@@ -1,5 +1,12 @@
+@media screen and (max-width: 768px)
+{
+    body
+    {
+        height: 6rem;
+    }
+}
+
 body
 {
-    font: 14px "Century Gothic", Futura, sans-serif;
-    margin: 20px;
+    margin-top: 20px;
 }

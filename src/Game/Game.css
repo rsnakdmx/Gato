@@ -1,3 +1,15 @@
+button
+{
+    height: auto;
+    width: 100%;
+}
+
+li
+{
+    list-style-type: none;
+    padding-bottom: 3px;
+}
+
 ol, ul
 {
     padding-left: 30px;
@@ -11,15 +23,4 @@ ol, ul
 .kbd-navigation .square:focus
 {
     background: #ddd;
-}
-  
-.game
-{
-    display: flex;
-    flex-direction: row;
-}
-  
-.game-info
-{
-    margin-left: 20px;
 }
